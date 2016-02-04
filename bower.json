@@ -1,0 +1,10 @@
+{
+  "name": "observe-elements",
+  "version": "0.0.1",
+  "dependencies": {
+    "polymer": "Polymer/polymer#^1.0.0",
+    "import-commons": "git+https://github.com/andiwand/import-commons.git",
+    "import-observe": "git+https://github.com/andiwand/import-observe.git"
+  },
+  "private": true
+}
