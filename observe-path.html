@@ -9,7 +9,7 @@
       object: {
         type: Object,
         notify: true,
-        observer: "_onObjectChanged"
+        observer: "_objectChanged"
       },
       path: String,
       value: {
@@ -23,14 +23,14 @@
     _fire: function(newValue, oldValue) {
       this.notifyPath("value", newValue);
     },
-    _onObjectChanged: function(newValue, oldValue) {
+    _objectChanged: function(newValue, oldValue) {
       if (this._observer) this._observer.close();
       if (!newValue) return;
       if (!this.path) return;
 
       var observable = newValue;
-      if (andiwand.isString(newValue)) {
-        observable = andiwand.byPath(window, newValue);
+      if (this.isString(newValue)) {
+        observable = this._resolvePath(window, newValue);
         if (!observable) return;
       }
 
@@ -39,7 +39,21 @@
         this._fire(newValue, oldValue);
       }), this);
 
-      this._fire(andiwand.byPath(observable, this.path), undefined);
-    }
+      this._fire(this._resolvePath(observable, this.path), undefined);
+    },
+    _resolvePath: function(object, path) {
+      path = path.replace(/\[(\w+)\]/g, ".$1");
+      path = path.replace(/^\./, "");
+      var keys = path.split(".");
+      for (var i = 0; i < keys.length; i++) {
+          var key = keys[i];
+          if (key in object) object = object[key];
+          else return;
+      }
+      return object;
+    },
+    _isString: function(o) {
+      return (typeof o === "string") || (o instanceof String);
+    };
   });
 </script>
