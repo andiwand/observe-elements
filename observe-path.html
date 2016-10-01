@@ -35,9 +35,9 @@
       }
 
       this._observer = new PathObserver(observable, this.path);
-      this._observer.open($.proxy(function(newValue, oldValue) {
+      this._observer.open(function(newValue, oldValue) {
         this._fire(newValue, oldValue);
-      }), this);
+      }.bind(this));
 
       this._fire(this._resolvePath(observable, this.path), undefined);
     },
