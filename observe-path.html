@@ -29,7 +29,7 @@
       if (!this.path) return;
 
       var observable = newValue;
-      if (this.isString(newValue)) {
+      if (this._isString(newValue)) {
         observable = this._resolvePath(window, newValue);
         if (!observable) return;
       }
