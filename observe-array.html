@@ -22,9 +22,9 @@
       if (!array) return;
       if (this._observer) this._observer.close();
       this._observer = new ArrayObserver(array);
-      this._observer.open($.proxy(function(splices) {
+      this._observer.open(function(splices) {
         this._fire(false, this.array, splices);
-      }), this);
+      }.bind(this));
 
       this._fire(true, this.array);
     }
