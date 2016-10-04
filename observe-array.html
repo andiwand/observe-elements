@@ -8,7 +8,7 @@
       array: {
         type: Array,
         notify: true,
-        observer: "_onArrayChanged"
+        observer: "_arrayChanged"
       }
     },
     _fire: function(isNew, array, splices) {
@@ -18,15 +18,15 @@
         splices: splices
       });
     },
-    _onArrayChanged: function(array) {
-      if (!array) return;
+    _arrayChanged: function(newArray, oldArray) {
+      if (!newArray) return;
       if (this._observer) this._observer.close();
-      this._observer = new ArrayObserver(array);
+      this._observer = new ArrayObserver(newArray);
       this._observer.open(function(splices) {
         this._fire(false, this.array, splices);
       }.bind(this));
 
-      this._fire(true, this.array);
+      this._fire(true, newArray, null);
     }
   });
 </script>
